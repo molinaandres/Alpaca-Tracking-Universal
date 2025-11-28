@@ -1,0 +1,648 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 70;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2BA5FCB8F6CAF6BF785EF4AC /* AlpacaTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57CEF06372B485A8D364521 /* AlpacaTrackerApp.swift */; };
+		30EA805704CCAA78E844B1BA /* PositionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8816C31257142A291C318751 /* PositionsView.swift */; };
+		41D64FE92E7409A900129E88 /* PortfolioHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FE02E7409A900129E88 /* PortfolioHistory.swift */; };
+		41D64FEA2E7409A900129E88 /* AlpacaAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FE42E7409A900129E88 /* AlpacaAPIService.swift */; };
+		41D64FEB2E7409A900129E88 /* TradingDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FD92E7409A900129E88 /* TradingDataManager.swift */; };
+		41D64FEC2E7409A900129E88 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FDE2E7409A900129E88 /* AppSettings.swift */; };
+		41D64FED2E7409A900129E88 /* AccountActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FDB2E7409A900129E88 /* AccountActivity.swift */; };
+		41D64FEE2E7409A900129E88 /* IndexData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FDF2E7409A900129E88 /* IndexData.swift */; };
+		41D64FEF2E7409A900129E88 /* AlpacaAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FDD2E7409A900129E88 /* AlpacaAccount.swift */; };
+		41D64FF02E7409A900129E88 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FE62E7409A900129E88 /* SettingsManager.swift */; };
+		41D64FF12E7409A900129E88 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FD82E7409A900129E88 /* AccountManager.swift */; };
+		41D64FF22E7409A900129E88 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FE12E7409A900129E88 /* Position.swift */; };
+		41D64FF32E7409A900129E88 /* Trade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FE22E7409A900129E88 /* Trade.swift */; };
+		41D64FF42E7409A900129E88 /* EncryptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FE52E7409A900129E88 /* EncryptionService.swift */; };
+		41D64FF52E7409A900129E88 /* AccountBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FDC2E7409A900129E88 /* AccountBalance.swift */; };
+		41D650072E740C5100129E88 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FD82E7409A900129E88 /* AccountManager.swift */; };
+		41D650082E740C5700129E88 /* TradingDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FD92E7409A900129E88 /* TradingDataManager.swift */; };
+		41D650092E740C5C00129E88 /* AccountActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FDB2E7409A900129E88 /* AccountActivity.swift */; };
+		41D6500A2E740C6600129E88 /* Trade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FE22E7409A900129E88 /* Trade.swift */; };
+		41D6500B2E740C6600129E88 /* AlpacaAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FDD2E7409A900129E88 /* AlpacaAccount.swift */; };
+		41D6500C2E740C6600129E88 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FDE2E7409A900129E88 /* AppSettings.swift */; };
+		41D6500D2E740C6600129E88 /* IndexData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FDF2E7409A900129E88 /* IndexData.swift */; };
+		41D6500E2E740C6600129E88 /* AccountBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FDC2E7409A900129E88 /* AccountBalance.swift */; };
+		41D6500F2E740C6600129E88 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FE12E7409A900129E88 /* Position.swift */; };
+		41D650102E740C6600129E88 /* PortfolioHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FE02E7409A900129E88 /* PortfolioHistory.swift */; };
+		41D650112E740C7000129E88 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FE62E7409A900129E88 /* SettingsManager.swift */; };
+		41D650122E740C7000129E88 /* AlpacaAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FE42E7409A900129E88 /* AlpacaAPIService.swift */; };
+		41D650132E740C7000129E88 /* EncryptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FE52E7409A900129E88 /* EncryptionService.swift */; };
+		41D6501B2E7412B400129E88 /* ColorCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D6501A2E7412B300129E88 /* ColorCompatibility.swift */; };
+		41D6501C2E7412B400129E88 /* ColorCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D6501A2E7412B300129E88 /* ColorCompatibility.swift */; };
+		47CA3BB883BABA79901512CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9486F13F9C6E2936BB7572E /* Assets.xcassets */; };
+		79B169EF08E1D290EB79970A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A063F4F4B0B53209FA4C2926 /* Preview Assets.xcassets */; };
+		92FB94B49C844859DAD87110 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1211261BD5F3D3FC681A543 /* ContentView.swift */; };
+		F3A4B5C6D7E8F9A0B1C2D3E4 /* PerformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C6D7E8F9A0B1C2D3E4F5A6 /* PerformanceView.swift */; };
+		G4B5C6D7E8F9A0B1C2D3E4F5 /* DateRangePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D7E8F9A0B1C2D3E4F5A6B7 /* DateRangePicker.swift */; };
+		TMKGDURTMIQDVGRNJTLLOCYX /* AlpacaTracker/Views/IndexComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = NWSMCRMKXRBRIQWVJQVBUCPV /* AlpacaTracker/Views/IndexComparisonView.swift */; };
+		XCQMTKAAVVFYCTCWPIOYQTBE /* AlpacaTracker/Views/IndexSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = KRQFULKSOGQAFUQNPWPGGBSS /* AlpacaTracker/Views/IndexSelector.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		41D64FD82E7409A900129E88 /* AccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
+		41D64FD92E7409A900129E88 /* TradingDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradingDataManager.swift; sourceTree = "<group>"; };
+		41D64FDB2E7409A900129E88 /* AccountActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountActivity.swift; sourceTree = "<group>"; };
+		41D64FDC2E7409A900129E88 /* AccountBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountBalance.swift; sourceTree = "<group>"; };
+		41D64FDD2E7409A900129E88 /* AlpacaAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlpacaAccount.swift; sourceTree = "<group>"; };
+		41D64FDE2E7409A900129E88 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		41D64FDF2E7409A900129E88 /* IndexData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexData.swift; sourceTree = "<group>"; };
+		41D64FE02E7409A900129E88 /* PortfolioHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioHistory.swift; sourceTree = "<group>"; };
+		41D64FE12E7409A900129E88 /* Position.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
+		41D64FE22E7409A900129E88 /* Trade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trade.swift; sourceTree = "<group>"; };
+		41D64FE42E7409A900129E88 /* AlpacaAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlpacaAPIService.swift; sourceTree = "<group>"; };
+		41D64FE52E7409A900129E88 /* EncryptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionService.swift; sourceTree = "<group>"; };
+		41D64FE62E7409A900129E88 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
+		41D64FFA2E740ACD00129E88 /* Grecia Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "Grecia Tracker.app"; path = "Grecia Tracker iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		41D6501A2E7412B300129E88 /* ColorCompatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCompatibility.swift; sourceTree = "<group>"; };
+		6BABEABC3AFCBA1E3261C010 /* AlpacaTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AlpacaTracker.entitlements; sourceTree = "<group>"; };
+		8816C31257142A291C318751 /* PositionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsView.swift; sourceTree = "<group>"; };
+		A063F4F4B0B53209FA4C2926 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A1211261BD5F3D3FC681A543 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B57CEF06372B485A8D364521 /* AlpacaTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlpacaTrackerApp.swift; sourceTree = "<group>"; };
+		B5ABF9554187EB2F1CB0052F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B5C6D7E8F9A0B1C2D3E4F5A6 /* PerformanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceView.swift; sourceTree = "<group>"; };
+		C6D7E8F9A0B1C2D3E4F5A6B7 /* DateRangePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRangePicker.swift; sourceTree = "<group>"; };
+		E9486F13F9C6E2936BB7572E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EECC29805485AEBB67C54E90 /* Grecia Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Grecia Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		KRQFULKSOGQAFUQNPWPGGBSS /* AlpacaTracker/Views/IndexSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlpacaTracker/Views/IndexSelector.swift; sourceTree = "<group>"; };
+		NWSMCRMKXRBRIQWVJQVBUCPV /* AlpacaTracker/Views/IndexComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlpacaTracker/Views/IndexComparisonView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		41D64FFB2E740ACD00129E88 /* AlpacaTrackeriOS */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = AlpacaTrackeriOS; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		41D64FF72E740ACD00129E88 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		25C8426AC6BEE599191BF709 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				A063F4F4B0B53209FA4C2926 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		41D64FDA2E7409A900129E88 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				41D64FD82E7409A900129E88 /* AccountManager.swift */,
+				41D64FD92E7409A900129E88 /* TradingDataManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		41D64FE32E7409A900129E88 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				41D6501A2E7412B300129E88 /* ColorCompatibility.swift */,
+				41D64FDB2E7409A900129E88 /* AccountActivity.swift */,
+				41D64FDC2E7409A900129E88 /* AccountBalance.swift */,
+				41D64FDD2E7409A900129E88 /* AlpacaAccount.swift */,
+				41D64FDE2E7409A900129E88 /* AppSettings.swift */,
+				41D64FDF2E7409A900129E88 /* IndexData.swift */,
+				41D64FE02E7409A900129E88 /* PortfolioHistory.swift */,
+				41D64FE12E7409A900129E88 /* Position.swift */,
+				41D64FE22E7409A900129E88 /* Trade.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		41D64FE72E7409A900129E88 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				41D64FE42E7409A900129E88 /* AlpacaAPIService.swift */,
+				41D64FE52E7409A900129E88 /* EncryptionService.swift */,
+				41D64FE62E7409A900129E88 /* SettingsManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		41D64FE82E7409A900129E88 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				41D64FDA2E7409A900129E88 /* Managers */,
+				41D64FE32E7409A900129E88 /* Models */,
+				41D64FE72E7409A900129E88 /* Services */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		AD90328621B59C1064048F99 /* AlpacaTracker */ = {
+			isa = PBXGroup;
+			children = (
+				6BABEABC3AFCBA1E3261C010 /* AlpacaTracker.entitlements */,
+				B57CEF06372B485A8D364521 /* AlpacaTrackerApp.swift */,
+				E9486F13F9C6E2936BB7572E /* Assets.xcassets */,
+				A1211261BD5F3D3FC681A543 /* ContentView.swift */,
+				B5ABF9554187EB2F1CB0052F /* Info.plist */,
+				25C8426AC6BEE599191BF709 /* Preview Content */,
+				CEA64AB4186FD9117674BD09 /* Views */,
+			);
+			path = AlpacaTracker;
+			sourceTree = "<group>";
+		};
+		CAC7FBC871FFD21BB83AF384 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EECC29805485AEBB67C54E90 /* Grecia Tracker.app */,
+				41D64FFA2E740ACD00129E88 /* Grecia Tracker.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CEA64AB4186FD9117674BD09 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B5C6D7E8F9A0B1C2D3E4F5A6 /* PerformanceView.swift */,
+				8816C31257142A291C318751 /* PositionsView.swift */,
+				C6D7E8F9A0B1C2D3E4F5A6B7 /* DateRangePicker.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		EAD7BC832E717E92006A93B8 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				KRQFULKSOGQAFUQNPWPGGBSS /* AlpacaTracker/Views/IndexSelector.swift */,
+				NWSMCRMKXRBRIQWVJQVBUCPV /* AlpacaTracker/Views/IndexComparisonView.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		F6014EF7967FBB1F00ADA3A7 = {
+			isa = PBXGroup;
+			children = (
+				41D64FE82E7409A900129E88 /* Shared */,
+				AD90328621B59C1064048F99 /* AlpacaTracker */,
+				41D64FFB2E740ACD00129E88 /* AlpacaTrackeriOS */,
+				CAC7FBC871FFD21BB83AF384 /* Products */,
+				EAD7BC832E717E92006A93B8 /* Recovered References */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		41D64FF92E740ACD00129E88 /* AlpacaTrackeriOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 41D650022E740ACF00129E88 /* Build configuration list for PBXNativeTarget "AlpacaTrackeriOS" */;
+			buildPhases = (
+				41D64FF62E740ACD00129E88 /* Sources */,
+				41D64FF72E740ACD00129E88 /* Frameworks */,
+				41D64FF82E740ACD00129E88 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				41D64FFB2E740ACD00129E88 /* AlpacaTrackeriOS */,
+			);
+			name = AlpacaTrackeriOS;
+			packageProductDependencies = (
+			);
+			productName = AlpacaTrackeriOS;
+			productReference = 41D64FFA2E740ACD00129E88 /* Grecia Tracker.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B29C6CB9AFE030ACCE8FC335 /* AlpacaTracker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E9B04528E37C31D5B93A921F /* Build configuration list for PBXNativeTarget "AlpacaTracker" */;
+			buildPhases = (
+				7863F6EDC506E7FE9B1ABAC4 /* Sources */,
+				FEE73E0455CDEB08FC2D44CF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AlpacaTracker;
+			packageProductDependencies = (
+			);
+			productName = AlpacaTracker;
+			productReference = EECC29805485AEBB67C54E90 /* Grecia Tracker.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7B2887D0AD344C4BF4860BFE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					41D64FF92E740ACD00129E88 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+				};
+			};
+			buildConfigurationList = 61197129413A9A37C01680A5 /* Build configuration list for PBXProject "AlpacaTracker" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = F6014EF7967FBB1F00ADA3A7;
+			minimizedProjectReferenceProxies = 1;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B29C6CB9AFE030ACCE8FC335 /* AlpacaTracker */,
+				41D64FF92E740ACD00129E88 /* AlpacaTrackeriOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		41D64FF82E740ACD00129E88 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FEE73E0455CDEB08FC2D44CF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47CA3BB883BABA79901512CE /* Assets.xcassets in Resources */,
+				79B169EF08E1D290EB79970A /* Preview Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		41D64FF62E740ACD00129E88 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41D650092E740C5C00129E88 /* AccountActivity.swift in Sources */,
+				41D6500A2E740C6600129E88 /* Trade.swift in Sources */,
+				41D6500B2E740C6600129E88 /* AlpacaAccount.swift in Sources */,
+				41D650112E740C7000129E88 /* SettingsManager.swift in Sources */,
+				41D650122E740C7000129E88 /* AlpacaAPIService.swift in Sources */,
+				41D650132E740C7000129E88 /* EncryptionService.swift in Sources */,
+				41D6500C2E740C6600129E88 /* AppSettings.swift in Sources */,
+				41D6500D2E740C6600129E88 /* IndexData.swift in Sources */,
+				41D6500E2E740C6600129E88 /* AccountBalance.swift in Sources */,
+				41D6500F2E740C6600129E88 /* Position.swift in Sources */,
+				41D650102E740C6600129E88 /* PortfolioHistory.swift in Sources */,
+				41D6501B2E7412B400129E88 /* ColorCompatibility.swift in Sources */,
+				41D650082E740C5700129E88 /* TradingDataManager.swift in Sources */,
+				41D650072E740C5100129E88 /* AccountManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7863F6EDC506E7FE9B1ABAC4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BA5FCB8F6CAF6BF785EF4AC /* AlpacaTrackerApp.swift in Sources */,
+				92FB94B49C844859DAD87110 /* ContentView.swift in Sources */,
+				41D64FE92E7409A900129E88 /* PortfolioHistory.swift in Sources */,
+				41D64FEA2E7409A900129E88 /* AlpacaAPIService.swift in Sources */,
+				41D64FEB2E7409A900129E88 /* TradingDataManager.swift in Sources */,
+				41D64FEC2E7409A900129E88 /* AppSettings.swift in Sources */,
+				41D64FED2E7409A900129E88 /* AccountActivity.swift in Sources */,
+				41D64FEE2E7409A900129E88 /* IndexData.swift in Sources */,
+				41D64FEF2E7409A900129E88 /* AlpacaAccount.swift in Sources */,
+				41D64FF02E7409A900129E88 /* SettingsManager.swift in Sources */,
+				41D64FF12E7409A900129E88 /* AccountManager.swift in Sources */,
+				41D64FF22E7409A900129E88 /* Position.swift in Sources */,
+				41D64FF32E7409A900129E88 /* Trade.swift in Sources */,
+				41D64FF42E7409A900129E88 /* EncryptionService.swift in Sources */,
+				41D64FF52E7409A900129E88 /* AccountBalance.swift in Sources */,
+				F3A4B5C6D7E8F9A0B1C2D3E4 /* PerformanceView.swift in Sources */,
+				G4B5C6D7E8F9A0B1C2D3E4F5 /* DateRangePicker.swift in Sources */,
+				30EA805704CCAA78E844B1BA /* PositionsView.swift in Sources */,
+				XCQMTKAAVVFYCTCWPIOYQTBE /* AlpacaTracker/Views/IndexSelector.swift in Sources */,
+				TMKGDURTMIQDVGRNJTLLOCYX /* AlpacaTracker/Views/IndexComparisonView.swift in Sources */,
+				41D6501C2E7412B400129E88 /* ColorCompatibility.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1E9F3B98970E565F3DE3DE47 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "Grecia Tracker";
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		41D650032E740ACF00129E88 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = X59ZW4G58D;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.grecia.tracker;
+				PRODUCT_NAME = "Grecia Tracker iOS";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		41D650042E740ACF00129E88 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = X59ZW4G58D;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.grecia.tracker;
+				PRODUCT_NAME = "Grecia Tracker iOS";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		523854AF7689211487668A86 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AlpacaTracker/AlpacaTracker.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = AX4SUXVQYW;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AlpacaTracker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MARKETING_VERSION = 1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alpaca.tracker;
+				PRODUCT_NAME = "Grecia Tracker";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		AE8FB9787AFE48CA631CFEEB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AlpacaTracker/AlpacaTracker.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = AX4SUXVQYW;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				GCC_OPTIMIZATION_LEVEL = fast;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AlpacaTracker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MARKETING_VERSION = 1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alpaca.tracker;
+				PRODUCT_NAME = "Grecia Tracker";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		FFC5BC8FFD3121E5BF5AE1F8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "Grecia Tracker";
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		41D650022E740ACF00129E88 /* Build configuration list for PBXNativeTarget "AlpacaTrackeriOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				41D650032E740ACF00129E88 /* Debug */,
+				41D650042E740ACF00129E88 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		61197129413A9A37C01680A5 /* Build configuration list for PBXProject "AlpacaTracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1E9F3B98970E565F3DE3DE47 /* Debug */,
+				FFC5BC8FFD3121E5BF5AE1F8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E9B04528E37C31D5B93A921F /* Build configuration list for PBXNativeTarget "AlpacaTracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				523854AF7689211487668A86 /* Debug */,
+				AE8FB9787AFE48CA631CFEEB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7B2887D0AD344C4BF4860BFE /* Project object */;
+}
