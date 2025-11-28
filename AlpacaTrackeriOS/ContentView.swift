@@ -4,6 +4,7 @@ import UniformTypeIdentifiers
 struct ContentView: View {
     @StateObject private var accountManager = AccountManager()
     @StateObject private var settingsManager = SettingsManager.shared
+    @StateObject private var authService = SupabaseAuthService.shared
     @State private var showingAddAccount = false
     @State private var showingEditAccount = false
     @State private var accountToEdit: AlpacaAccount?
@@ -15,6 +16,25 @@ struct ContentView: View {
     @State private var comparisonReloadToken = UUID()
     
     var body: some View {
+        Group {
+            if authService.isAuthenticated {
+                mainContent
+            } else {
+                LoginView(accountManager: accountManager)
+            }
+        }
+        .onAppear {
+            // Sincronizar estado de autenticación
+            accountManager.isAuthenticated = authService.isAuthenticated
+            accountManager.currentUser = authService.currentUser
+        }
+        .onChange(of: authService.isAuthenticated) { isAuthenticated in
+            accountManager.isAuthenticated = isAuthenticated
+            accountManager.currentUser = authService.currentUser
+        }
+    }
+    
+    private var mainContent: some View {
         TabView(selection: $selectedTab) {
             // Accounts Tab
             NavigationView {

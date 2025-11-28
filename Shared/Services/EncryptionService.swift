@@ -1,5 +1,6 @@
 import Foundation
 import CryptoKit
+import CommonCrypto
 
 #if os(macOS)
 import IOKit
@@ -123,5 +124,100 @@ extension EncryptionService {
     /// - Returns: Array de strings desencriptados
     static func decryptArray(_ encryptedStrings: [String]) -> [String] {
         return encryptedStrings.compactMap { decrypt($0) }
+    }
+    
+    // MARK: - Password-based Encryption
+    
+    /// Deriva una clave simétrica desde una contraseña usando PBKDF2
+    /// - Parameters:
+    ///   - password: La contraseña del usuario
+    ///   - salt: El salt en base64
+    ///   - iterations: Número de iteraciones (default: 100,000)
+    /// - Returns: Una clave simétrica derivada
+    static func deriveKeyFromPassword(password: String, salt: String, iterations: Int = 100_000) -> SymmetricKey? {
+        guard let saltData = Data(base64Encoded: salt),
+              let passwordData = password.data(using: .utf8) else {
+            return nil
+        }
+        
+        // Usar PBKDF2 con SHA-256
+        var derivedKeyData = Data(count: 32) // 256 bits para AES-256
+        
+        let result = derivedKeyData.withUnsafeMutableBytes { derivedKeyBytes -> Int32 in
+            guard let derivedKeyBaseAddress = derivedKeyBytes.baseAddress else {
+                return kCCMemoryFailure
+            }
+            
+            return passwordData.withUnsafeBytes { passwordBytes -> Int32 in
+                guard let passwordBaseAddress = passwordBytes.baseAddress else {
+                    return kCCMemoryFailure
+                }
+                
+                return saltData.withUnsafeBytes { saltBytes -> Int32 in
+                    guard let saltBaseAddress = saltBytes.baseAddress else {
+                        return kCCMemoryFailure
+                    }
+                    
+                    return CCKeyDerivationPBKDF(
+                        CCPBKDFAlgorithm(kCCPBKDF2),
+                        passwordBaseAddress.assumingMemoryBound(to: Int8.self),
+                        passwordData.count,
+                        saltBaseAddress.assumingMemoryBound(to: UInt8.self),
+                        saltData.count,
+                        CCPseudoRandomAlgorithm(kCCPRFHmacAlgSHA256),
+                        UInt32(iterations),
+                        derivedKeyBaseAddress.assumingMemoryBound(to: UInt8.self),
+                        derivedKeyData.count
+                    )
+                }
+            }
+        }
+        
+        guard result == kCCSuccess else {
+            return nil
+        }
+        
+        return SymmetricKey(data: derivedKeyData)
+    }
+    
+    /// Encripta un string usando una contraseña (deriva la clave con PBKDF2)
+    /// - Parameters:
+    ///   - plaintext: El texto a encriptar
+    ///   - password: La contraseña del usuario
+    ///   - salt: El salt en base64
+    /// - Returns: El texto encriptado en base64, o nil si falla
+    static func encryptWithPassword(_ plaintext: String, password: String, salt: String) -> String? {
+        guard let key = deriveKeyFromPassword(password: password, salt: salt),
+              let data = plaintext.data(using: .utf8) else {
+            return nil
+        }
+        
+        do {
+            let sealedBox = try AES.GCM.seal(data, using: key)
+            return sealedBox.combined?.base64EncodedString()
+        } catch {
+            return nil
+        }
+    }
+    
+    /// Desencripta un string usando una contraseña (deriva la clave con PBKDF2)
+    /// - Parameters:
+    ///   - encryptedText: El texto encriptado en base64
+    ///   - password: La contraseña del usuario
+    ///   - salt: El salt en base64
+    /// - Returns: El texto desencriptado, o nil si falla
+    static func decryptWithPassword(_ encryptedText: String, password: String, salt: String) -> String? {
+        guard let key = deriveKeyFromPassword(password: password, salt: salt),
+              let data = Data(base64Encoded: encryptedText),
+              let sealedBox = try? AES.GCM.SealedBox(combined: data) else {
+            return nil
+        }
+        
+        do {
+            let decryptedData = try AES.GCM.open(sealedBox, using: key)
+            return String(data: decryptedData, encoding: .utf8)
+        } catch {
+            return nil
+        }
     }
 }

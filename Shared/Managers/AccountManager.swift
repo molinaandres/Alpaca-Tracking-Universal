@@ -32,6 +32,14 @@ class AccountManager: ObservableObject {
     // Store daily change percentages for each account
     @Published var dailyChangePercentages: [UUID: Double] = [:]
     
+    // MARK: - Authentication
+    
+    @Published var isAuthenticated = false
+    @Published var currentUser: User?
+    
+    private let authService = SupabaseAuthService.shared
+    private let accountsService = SupabaseAccountsService.shared
+    
     // MARK: - Total Accounts
     
     /// Returns all accounts including the Total Accounts virtual account
@@ -1050,12 +1058,21 @@ class AccountManager: ObservableObject {
         accountsFileURL = storageDirectory.appendingPathComponent("alpaca_accounts.json")
         balancesFileURL = storageDirectory.appendingPathComponent("alpaca_balances.json")
         
-        loadAccounts()
-        loadBalances()
-        startPeriodicUpdates()
+        // Verificar autenticación
+        isAuthenticated = authService.isAuthenticated
+        currentUser = authService.currentUser
         
-        // Cargar cuentas desde el nuevo sistema de persistencia
-        loadAccountsFromSettings()
+        // Si está autenticado, cargar desde Supabase
+        if isAuthenticated {
+            loadAccountsAfterLogin()
+        } else {
+            // Modo local: cargar desde archivos locales
+            loadAccounts()
+            loadBalances()
+            loadAccountsFromSettings()
+        }
+        
+        startPeriodicUpdates()
         
         // Actualizar balances de todas las cuentas cargadas
         for account in accounts {
@@ -1077,6 +1094,22 @@ class AccountManager: ObservableObject {
                 // Trigger UI update when showTotalAccounts changes
                 DispatchQueue.main.async {
                     self?.objectWillChange.send()
+                }
+            }
+            .store(in: &cancellables)
+        
+        // Listen for authentication changes
+        authService.$isAuthenticated
+            .sink { [weak self] authenticated in
+                DispatchQueue.main.async {
+                    self?.isAuthenticated = authenticated
+                    self?.currentUser = self?.authService.currentUser
+                    if !authenticated {
+                        // Si se desautenticó, limpiar cuentas
+                        self?.accounts = []
+                        self?.balances = [:]
+                        self?.apiServices = [:]
+                    }
                 }
             }
             .store(in: &cancellables)
@@ -1185,6 +1218,15 @@ class AccountManager: ObservableObject {
         // Sincronizar también con SettingsManager para mantener leverage/budget en UserDefaults
         upsertSettingsAccount(from: encryptedAccount)
         
+        // Si está autenticado, sincronizar con Supabase
+        if isAuthenticated {
+            syncAccountToSupabase(account: encryptedAccount) { result in
+                if case .failure(let error) = result {
+                    print("Error syncing account to Supabase: \(error.localizedDescription)")
+                }
+            }
+        }
+        
         // Actualizar el trading data manager
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -1213,6 +1255,15 @@ class AccountManager: ObservableObject {
             // Persistence handled via local file in Application Support
             // Sincronizar también con SettingsManager
             upsertSettingsAccount(from: encryptedAccount)
+            
+            // Si está autenticado, sincronizar con Supabase
+            if isAuthenticated {
+                syncAccountToSupabase(account: encryptedAccount) { result in
+                    if case .failure(let error) = result {
+                        print("Error syncing account to Supabase: \(error.localizedDescription)")
+                    }
+                }
+            }
         }
     }
     
@@ -1223,6 +1274,15 @@ class AccountManager: ObservableObject {
         saveAccounts()
         // Eliminar de SettingsManager también
         settingsManager.deleteAccount(account.id.uuidString)
+        
+        // Si está autenticado, eliminar de Supabase
+        if isAuthenticated {
+            accountsService.deleteAccount(accountId: account.id) { result in
+                if case .failure(let error) = result {
+                    print("Error deleting account from Supabase: \(error.localizedDescription)")
+                }
+            }
+        }
         
         // Actualizar el trading data manager
         DispatchQueue.main.async { [weak self] in
@@ -1408,6 +1468,97 @@ class AccountManager: ObservableObject {
                 // La referencia se libera automáticamente al salir del scope
                 _ = serviceRef // Evitar advertencia de variable no usada
                 
+                switch result {
+                case .success:
+                    completion(.success(true))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+    
+    // MARK: - Supabase Synchronization
+    
+    /// Carga las cuentas desde Supabase después de un login exitoso
+    func loadAccountsAfterLogin() {
+        accountsService.fetchAccounts { [weak self] result in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let supabaseAccounts):
+                    // Reemplazar cuentas locales con las de Supabase
+                    self.accounts = supabaseAccounts.map { $0.encryptCredentials() }
+                    self.saveAccounts()
+                    
+                    // Crear servicios API para todas las cuentas
+                    for account in self.accounts {
+                        self.createAPIService(for: account)
+                        self.updateAccountBalance(account.id)
+                    }
+                    
+                    // Configurar el trading data manager
+                    self.tradingDataManager.configure(with: self.apiServices)
+                    
+                case .failure(let error):
+                    print("Error loading accounts from Supabase: \(error.localizedDescription)")
+                    // Fallback: cargar desde archivos locales
+                    self.loadAccounts()
+                    self.loadAccountsFromSettings()
+                }
+            }
+        }
+    }
+    
+    /// Sincroniza todas las cuentas desde Supabase
+    func syncAccountsFromSupabase(completion: @escaping (Result<Bool, Error>) -> Void) {
+        accountsService.fetchAccounts { [weak self] result in
+            DispatchQueue.main.async {
+                guard let self = self else {
+                    completion(.failure(NSError(domain: "AccountManager", code: -1, userInfo: [NSLocalizedDescriptionKey: "AccountManager deallocated"])))
+                    return
+                }
+                
+                switch result {
+                case .success(let supabaseAccounts):
+                    // Actualizar cuentas
+                    self.accounts = supabaseAccounts.map { $0.encryptCredentials() }
+                    self.saveAccounts()
+                    
+                    // Recrear servicios API
+                    self.apiServices.removeAll()
+                    for account in self.accounts {
+                        self.createAPIService(for: account)
+                        self.updateAccountBalance(account.id)
+                    }
+                    
+                    self.tradingDataManager.configure(with: self.apiServices)
+                    completion(.success(true))
+                    
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+    
+    /// Sincroniza una cuenta individual con Supabase
+    func syncAccountToSupabase(account: AlpacaAccount, completion: @escaping (Result<Bool, Error>) -> Void) {
+        // Verificar si la cuenta ya existe en Supabase (por ID)
+        if accounts.contains(where: { $0.id == account.id }) {
+            // Actualizar cuenta existente
+            accountsService.updateAccount(account: account) { result in
+                switch result {
+                case .success:
+                    completion(.success(true))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        } else {
+            // Agregar nueva cuenta
+            accountsService.addAccount(account: account) { result in
                 switch result {
                 case .success:
                     completion(.success(true))

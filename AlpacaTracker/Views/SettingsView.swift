@@ -2,6 +2,7 @@ import SwiftUI
 
 struct MacOSSettingsView: View {
     @StateObject private var settingsManager = SettingsManager.shared
+    @StateObject private var authService = SupabaseAuthService.shared
     @Environment(\.dismiss) private var dismiss
     let onNavigateToAccounts: (() -> Void)?
     
@@ -9,6 +10,7 @@ struct MacOSSettingsView: View {
     @State private var tempDefaultPeriod: PortfolioPeriod
     @State private var tempDefaultTimeframe: Timeframe
     @State private var tempShowTotalAccounts: Bool
+    @State private var showingChangePassword = false
     
     init(onNavigateToAccounts: (() -> Void)? = nil) {
         self.onNavigateToAccounts = onNavigateToAccounts
@@ -124,6 +126,43 @@ struct MacOSSettingsView: View {
                     .background(Color(NSColor.controlBackgroundColor))
                     .cornerRadius(8)
                     
+                    // MARK: - User Account Section
+                    if SupabaseAuthService.shared.isAuthenticated {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Account")
+                                .font(.headline)
+                                .foregroundColor(.primary)
+                            
+                            if let user = SupabaseAuthService.shared.currentUser {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Email")
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                    Text(user.email)
+                                        .font(.body)
+                                        .foregroundColor(.primary)
+                                }
+                            }
+                            
+                            Divider()
+                            
+                            Button("Change Password") {
+                                showingChangePassword = true
+                            }
+                            .foregroundColor(.accentColor)
+                            
+                            Divider()
+                            
+                            Button("Logout") {
+                                handleLogout()
+                            }
+                            .foregroundColor(.red)
+                        }
+                        .padding()
+                        .background(Color(NSColor.controlBackgroundColor))
+                        .cornerRadius(8)
+                    }
+                    
                     // MARK: - Reset Section
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Advanced")
@@ -149,9 +188,17 @@ struct MacOSSettingsView: View {
         }
         .frame(minWidth: 500, maxWidth: 600, minHeight: 400, maxHeight: 700)
         .background(Color(NSColor.windowBackgroundColor))
+        .sheet(isPresented: $showingChangePassword) {
+            ChangePasswordView()
+        }
         .onAppear {
             loadSettings()
         }
+    }
+    
+    private func handleLogout() {
+        authService.logout()
+        onNavigateToAccounts?()
     }
     
     private func saveSettings() {

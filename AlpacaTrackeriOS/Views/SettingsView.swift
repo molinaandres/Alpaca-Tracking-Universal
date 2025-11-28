@@ -2,6 +2,7 @@ import SwiftUI
 
 struct iOSSettingsView: View {
     @StateObject private var settingsManager = SettingsManager.shared
+    @StateObject private var authService = SupabaseAuthService.shared
     @Environment(\.dismiss) private var dismiss
     let onNavigateToAccounts: (() -> Void)?
     
@@ -9,6 +10,7 @@ struct iOSSettingsView: View {
     @State private var tempDefaultPeriod: PortfolioPeriod
     @State private var tempDefaultTimeframe: Timeframe
     @State private var tempShowTotalAccounts: Bool
+    @State private var showingChangePassword = false
     
     init(onNavigateToAccounts: (() -> Void)? = nil) {
         self.onNavigateToAccounts = onNavigateToAccounts
@@ -73,6 +75,31 @@ struct iOSSettingsView: View {
                     Text("Shows a virtual account that sums the balance of all real accounts.")
                 }
                 
+                // MARK: - User Account Section
+                if authService.isAuthenticated {
+                    Section {
+                        if let user = authService.currentUser {
+                            HStack {
+                                Text("Email")
+                                    .foregroundColor(.secondary)
+                                Spacer()
+                                Text(user.email)
+                                    .foregroundColor(.primary)
+                            }
+                        }
+                        
+                        Button("Change Password") {
+                            showingChangePassword = true
+                        }
+                        
+                        Button("Logout") {
+                            handleLogout()
+                        }
+                        .foregroundColor(.red)
+                    } header: {
+                        Text("Account")
+                    }
+                }
                 
                 // MARK: - Reset Section
                 Section {
@@ -118,8 +145,16 @@ struct iOSSettingsView: View {
         .onChange(of: settingsManager.appSettings.showTotalAccounts) { _, newValue in
             tempShowTotalAccounts = newValue
         }
+        .sheet(isPresented: $showingChangePassword) {
+            ChangePasswordView()
+        }
         .background(ColorCompatibility.appBackground())
         .navigationViewStyle(StackNavigationViewStyle())
+    }
+    
+    private func handleLogout() {
+        authService.logout()
+        onNavigateToAccounts?()
     }
 }
 
