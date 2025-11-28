@@ -3,6 +3,7 @@ import SwiftUI
 struct iOSSettingsView: View {
     @StateObject private var settingsManager = SettingsManager.shared
     @StateObject private var authService = SupabaseAuthService.shared
+    @ObservedObject var accountManager: AccountManager
     @Environment(\.dismiss) private var dismiss
     let onNavigateToAccounts: (() -> Void)?
     
@@ -11,8 +12,10 @@ struct iOSSettingsView: View {
     @State private var tempDefaultTimeframe: Timeframe
     @State private var tempShowTotalAccounts: Bool
     @State private var showingChangePassword = false
+    @State private var showingEditCredentials = false
     
-    init(onNavigateToAccounts: (() -> Void)? = nil) {
+    init(accountManager: AccountManager, onNavigateToAccounts: (() -> Void)? = nil) {
+        self.accountManager = accountManager
         self.onNavigateToAccounts = onNavigateToAccounts
         let settings = SettingsManager.shared.appSettings
         _tempDefaultPeriod = State(initialValue: settings.defaultPeriod)
@@ -91,13 +94,65 @@ struct iOSSettingsView: View {
                         Button("Change Password") {
                             showingChangePassword = true
                         }
-                        
-                        Button("Logout") {
-                            handleLogout()
-                        }
-                        .foregroundColor(.red)
                     } header: {
                         Text("Account")
+                    }
+                    
+                    // API Credentials and Registration Information Sections
+                    if let account = accountManager.realAccounts.first {
+                        Section {
+                            VStack(alignment: .leading, spacing: 8) {
+                                HStack {
+                                    Text("API Key:")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                    Spacer()
+                                    Text(String(repeating: "•", count: 20))
+                                        .font(.system(.caption, design: .monospaced))
+                                        .foregroundColor(.secondary)
+                                }
+                                
+                                HStack {
+                                    Text("Secret Key:")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                    Spacer()
+                                    Text(String(repeating: "•", count: 20))
+                                        .font(.system(.caption, design: .monospaced))
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            .padding(.vertical, 4)
+                            
+                            Button("Edit API Credentials") {
+                                showingEditCredentials = true
+                            }
+                        } header: {
+                            Text("API Credentials")
+                        }
+                        
+                        // Registration Information Section
+                        Section {
+                            InfoRow(label: "Account Label", value: account.name)
+                            InfoRow(label: "Live Trading", value: account.isLiveTrading ? "Yes" : "No")
+                            
+                            if let firstTradeDate = account.firstTradeDate {
+                                InfoRow(label: "First Trade Date", value: DateFormatter.shortDate.string(from: firstTradeDate))
+                            }
+                            
+                            if let leverage = account.leverage {
+                                InfoRow(label: "Leverage", value: String(format: "%.1fx", leverage))
+                            }
+                            
+                            if let budget = account.budget {
+                                InfoRow(label: "Budget Allocation", value: "\(budget)%")
+                            }
+                            
+                            InfoRow(label: "Can Close All Positions", value: (account.canCloseAllPositions ?? false) ? "Yes" : "No")
+                            InfoRow(label: "Can Disconnect From Grecia", value: (account.canDisconnectFromGrecia ?? false) ? "Yes" : "No")
+                        } header: {
+                            Text("Registration Information")
+                        }
                     }
                 }
                 
@@ -146,18 +201,37 @@ struct iOSSettingsView: View {
             tempShowTotalAccounts = newValue
         }
         .sheet(isPresented: $showingChangePassword) {
-            ChangePasswordView()
+            ChangePasswordView(accountManager: accountManager)
+        }
+        .sheet(isPresented: $showingEditCredentials) {
+            EditCredentialsView(accountManager: accountManager)
         }
         .background(ColorCompatibility.appBackground())
         .navigationViewStyle(StackNavigationViewStyle())
     }
     
-    private func handleLogout() {
-        authService.logout()
-        onNavigateToAccounts?()
+}
+
+// Helper struct para mostrar información en formato label:value
+struct InfoRow: View {
+    let label: String
+    let value: String
+    
+    var body: some View {
+        HStack {
+            Text(label)
+                .font(.caption)
+                .foregroundColor(.secondary)
+            Spacer()
+            Text(value)
+                .font(.caption)
+                .foregroundColor(.primary)
+        }
     }
 }
 
+// Extension para formatear fechas ya existe en PerformanceView.swift
+
 #Preview {
-    iOSSettingsView()
+    iOSSettingsView(accountManager: AccountManager())
 }

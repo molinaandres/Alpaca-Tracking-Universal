@@ -1100,7 +1100,7 @@ class AccountManager: ObservableObject {
         
         // Listen for authentication changes
         authService.$isAuthenticated
-            .sink { [weak self] authenticated in
+            .sink { [weak self] (authenticated: Bool) in
                 DispatchQueue.main.async {
                     self?.isAuthenticated = authenticated
                     self?.currentUser = self?.authService.currentUser
@@ -1482,14 +1482,17 @@ class AccountManager: ObservableObject {
     
     /// Carga las cuentas desde Supabase después de un login exitoso
     func loadAccountsAfterLogin() {
-        accountsService.fetchAccounts { [weak self] result in
+        print("🔄 loadAccountsAfterLogin called")
+        accountsService.fetchAccounts { [weak self] (result: Result<[AlpacaAccount], AccountServiceError>) in
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 
                 switch result {
                 case .success(let supabaseAccounts):
+                    print("✅ Successfully fetched \(supabaseAccounts.count) accounts from Supabase")
                     // Reemplazar cuentas locales con las de Supabase
                     self.accounts = supabaseAccounts.map { $0.encryptCredentials() }
+                    print("✅ Loaded \(self.accounts.count) accounts into AccountManager")
                     self.saveAccounts()
                     
                     // Crear servicios API para todas las cuentas
@@ -1502,7 +1505,7 @@ class AccountManager: ObservableObject {
                     self.tradingDataManager.configure(with: self.apiServices)
                     
                 case .failure(let error):
-                    print("Error loading accounts from Supabase: \(error.localizedDescription)")
+                    print("❌ Error loading accounts from Supabase: \(error.localizedDescription)")
                     // Fallback: cargar desde archivos locales
                     self.loadAccounts()
                     self.loadAccountsFromSettings()
@@ -1513,7 +1516,7 @@ class AccountManager: ObservableObject {
     
     /// Sincroniza todas las cuentas desde Supabase
     func syncAccountsFromSupabase(completion: @escaping (Result<Bool, Error>) -> Void) {
-        accountsService.fetchAccounts { [weak self] result in
+        accountsService.fetchAccounts { [weak self] (result: Result<[AlpacaAccount], AccountServiceError>) in
             DispatchQueue.main.async {
                 guard let self = self else {
                     completion(.failure(NSError(domain: "AccountManager", code: -1, userInfo: [NSLocalizedDescriptionKey: "AccountManager deallocated"])))

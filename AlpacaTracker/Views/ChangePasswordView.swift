@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ChangePasswordView: View {
     @StateObject private var authService = SupabaseAuthService.shared
+    var accountManager: AccountManager?
     
     @State private var currentPassword = ""
     @State private var newPassword = ""
@@ -11,6 +12,10 @@ struct ChangePasswordView: View {
     @State private var successMessage: String?
     
     @Environment(\.dismiss) private var dismiss
+    
+    init(accountManager: AccountManager? = nil) {
+        self.accountManager = accountManager
+    }
     
     var body: some View {
         VStack(spacing: 24) {
@@ -123,6 +128,8 @@ struct ChangePasswordView: View {
                 switch result {
                 case .success:
                     successMessage = "Password changed successfully!"
+                    // Recargar cuentas después de cambiar password para asegurar que todo esté sincronizado
+                    accountManager?.loadAccountsAfterLogin()
                     // Limpiar campos
                     currentPassword = ""
                     newPassword = ""

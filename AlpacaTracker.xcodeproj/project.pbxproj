@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2BA5FCB8F6CAF6BF785EF4AC /* AlpacaTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57CEF06372B485A8D364521 /* AlpacaTrackerApp.swift */; };
 		30EA805704CCAA78E844B1BA /* PositionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8816C31257142A291C318751 /* PositionsView.swift */; };
+		346BU1INBERGWCCXDKLWR4A0 /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0YRMAA4FZKBVNFUUPZUCUVK2 /* AuthModels.swift */; };
 		41D64FE92E7409A900129E88 /* PortfolioHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FE02E7409A900129E88 /* PortfolioHistory.swift */; };
 		41D64FEA2E7409A900129E88 /* AlpacaAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FE42E7409A900129E88 /* AlpacaAPIService.swift */; };
 		41D64FEB2E7409A900129E88 /* TradingDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D64FD92E7409A900129E88 /* TradingDataManager.swift */; };
@@ -38,15 +39,29 @@
 		41D6501B2E7412B400129E88 /* ColorCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D6501A2E7412B300129E88 /* ColorCompatibility.swift */; };
 		41D6501C2E7412B400129E88 /* ColorCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D6501A2E7412B300129E88 /* ColorCompatibility.swift */; };
 		47CA3BB883BABA79901512CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9486F13F9C6E2936BB7572E /* Assets.xcassets */; };
+		63ZXC72T16XTOYJE948G3A9F /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = MM8AWVM95DWZATTIXWZPNJ3N /* ChangePasswordView.swift */; };
+		E9F8G7H6I5J4K3L2M1N0O9P8Q /* EditCredentialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = R7S6T5U4V3W2X1Y0Z9A8B7C6D /* EditCredentialsView.swift */; };
+		Q1W2E3R4T5Y6U7I8O9P0A1S2D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3G4H5J6K7L8M9N0P1Q2R3S4T /* SettingsView.swift */; };
+		6QW1UWBZGTY216XI0HOEGHVZ /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = GZDF5H7VQ3HZG6Y22FR9O946 /* ConfigManager.swift */; };
 		79B169EF08E1D290EB79970A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A063F4F4B0B53209FA4C2926 /* Preview Assets.xcassets */; };
 		92FB94B49C844859DAD87110 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1211261BD5F3D3FC681A543 /* ContentView.swift */; };
+		DQ69KPRA53HVLRUL4BUH0LNO /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = GZDF5H7VQ3HZG6Y22FR9O946 /* ConfigManager.swift */; };
 		F3A4B5C6D7E8F9A0B1C2D3E4 /* PerformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C6D7E8F9A0B1C2D3E4F5A6 /* PerformanceView.swift */; };
 		G4B5C6D7E8F9A0B1C2D3E4F5 /* DateRangePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D7E8F9A0B1C2D3E4F5A6B7 /* DateRangePicker.swift */; };
+		MAS9R8C51FSRXG5NW4QCRQEY /* SupabaseAccountsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6JE2XZ80WSIFFAOKSEFSCLZB /* SupabaseAccountsService.swift */; };
+		MC1P9DOL2XE0O4T4PDSDLCN8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = PYURGCB6HY1IQ8FOVEM4E0G4 /* LoginView.swift */; };
+		ML5R8BUGACIGKXQARITT6RH9 /* SupabaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ZTRPI9817B7OUKJ06E7OXO6 /* SupabaseAuthService.swift */; };
+		RIA8RERVJFRRLTT6OO8L48T3 /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0YRMAA4FZKBVNFUUPZUCUVK2 /* AuthModels.swift */; };
 		TMKGDURTMIQDVGRNJTLLOCYX /* AlpacaTracker/Views/IndexComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = NWSMCRMKXRBRIQWVJQVBUCPV /* AlpacaTracker/Views/IndexComparisonView.swift */; };
+		VQ46EOVD366H0ESKW1EZXU4M /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = P8ZSS1QSMGKVFSE4J53HF6QH /* RegisterView.swift */; };
+		X4JZSO916NJNVPWOAW9SUMRJ /* SupabaseAccountsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6JE2XZ80WSIFFAOKSEFSCLZB /* SupabaseAccountsService.swift */; };
 		XCQMTKAAVVFYCTCWPIOYQTBE /* AlpacaTracker/Views/IndexSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = KRQFULKSOGQAFUQNPWPGGBSS /* AlpacaTracker/Views/IndexSelector.swift */; };
+		XUHH6TRKMJJP7Z9K6SQ5STGZ /* SupabaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ZTRPI9817B7OUKJ06E7OXO6 /* SupabaseAuthService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0YRMAA4FZKBVNFUUPZUCUVK2 /* AuthModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModels.swift; sourceTree = "<group>"; };
+		1ZTRPI9817B7OUKJ06E7OXO6 /* SupabaseAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseAuthService.swift; sourceTree = "<group>"; };
 		41D64FD82E7409A900129E88 /* AccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
 		41D64FD92E7409A900129E88 /* TradingDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradingDataManager.swift; sourceTree = "<group>"; };
 		41D64FDB2E7409A900129E88 /* AccountActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountActivity.swift; sourceTree = "<group>"; };
@@ -63,6 +78,7 @@
 		41D64FFA2E740ACD00129E88 /* Grecia Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "Grecia Tracker.app"; path = "Grecia Tracker iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		41D6501A2E7412B300129E88 /* ColorCompatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCompatibility.swift; sourceTree = "<group>"; };
 		6BABEABC3AFCBA1E3261C010 /* AlpacaTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AlpacaTracker.entitlements; sourceTree = "<group>"; };
+		6JE2XZ80WSIFFAOKSEFSCLZB /* SupabaseAccountsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseAccountsService.swift; sourceTree = "<group>"; };
 		8816C31257142A291C318751 /* PositionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsView.swift; sourceTree = "<group>"; };
 		A063F4F4B0B53209FA4C2926 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A1211261BD5F3D3FC681A543 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -72,8 +88,14 @@
 		C6D7E8F9A0B1C2D3E4F5A6B7 /* DateRangePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRangePicker.swift; sourceTree = "<group>"; };
 		E9486F13F9C6E2936BB7572E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EECC29805485AEBB67C54E90 /* Grecia Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Grecia Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		GZDF5H7VQ3HZG6Y22FR9O946 /* ConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigManager.swift; sourceTree = "<group>"; };
 		KRQFULKSOGQAFUQNPWPGGBSS /* AlpacaTracker/Views/IndexSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlpacaTracker/Views/IndexSelector.swift; sourceTree = "<group>"; };
+		MM8AWVM95DWZATTIXWZPNJ3N /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
+		R7S6T5U4V3W2X1Y0Z9A8B7C6D /* EditCredentialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCredentialsView.swift; sourceTree = "<group>"; };
+		F3G4H5J6K7L8M9N0P1Q2R3S4T /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		NWSMCRMKXRBRIQWVJQVBUCPV /* AlpacaTracker/Views/IndexComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlpacaTracker/Views/IndexComparisonView.swift; sourceTree = "<group>"; };
+		P8ZSS1QSMGKVFSE4J53HF6QH /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		PYURGCB6HY1IQ8FOVEM4E0G4 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -120,6 +142,7 @@
 				41D64FE02E7409A900129E88 /* PortfolioHistory.swift */,
 				41D64FE12E7409A900129E88 /* Position.swift */,
 				41D64FE22E7409A900129E88 /* Trade.swift */,
+				0YRMAA4FZKBVNFUUPZUCUVK2 /* AuthModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -130,6 +153,9 @@
 				41D64FE42E7409A900129E88 /* AlpacaAPIService.swift */,
 				41D64FE52E7409A900129E88 /* EncryptionService.swift */,
 				41D64FE62E7409A900129E88 /* SettingsManager.swift */,
+				1ZTRPI9817B7OUKJ06E7OXO6 /* SupabaseAuthService.swift */,
+				6JE2XZ80WSIFFAOKSEFSCLZB /* SupabaseAccountsService.swift */,
+				GZDF5H7VQ3HZG6Y22FR9O946 /* ConfigManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -173,6 +199,11 @@
 				B5C6D7E8F9A0B1C2D3E4F5A6 /* PerformanceView.swift */,
 				8816C31257142A291C318751 /* PositionsView.swift */,
 				C6D7E8F9A0B1C2D3E4F5A6B7 /* DateRangePicker.swift */,
+				PYURGCB6HY1IQ8FOVEM4E0G4 /* LoginView.swift */,
+				P8ZSS1QSMGKVFSE4J53HF6QH /* RegisterView.swift */,
+				MM8AWVM95DWZATTIXWZPNJ3N /* ChangePasswordView.swift */,
+				R7S6T5U4V3W2X1Y0Z9A8B7C6D /* EditCredentialsView.swift */,
+				F3G4H5J6K7L8M9N0P1Q2R3S4T /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -312,6 +343,10 @@
 				41D6501B2E7412B400129E88 /* ColorCompatibility.swift in Sources */,
 				41D650082E740C5700129E88 /* TradingDataManager.swift in Sources */,
 				41D650072E740C5100129E88 /* AccountManager.swift in Sources */,
+				ML5R8BUGACIGKXQARITT6RH9 /* SupabaseAuthService.swift in Sources */,
+				MAS9R8C51FSRXG5NW4QCRQEY /* SupabaseAccountsService.swift in Sources */,
+				DQ69KPRA53HVLRUL4BUH0LNO /* ConfigManager.swift in Sources */,
+				RIA8RERVJFRRLTT6OO8L48T3 /* AuthModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +375,15 @@
 				XCQMTKAAVVFYCTCWPIOYQTBE /* AlpacaTracker/Views/IndexSelector.swift in Sources */,
 				TMKGDURTMIQDVGRNJTLLOCYX /* AlpacaTracker/Views/IndexComparisonView.swift in Sources */,
 				41D6501C2E7412B400129E88 /* ColorCompatibility.swift in Sources */,
+				XUHH6TRKMJJP7Z9K6SQ5STGZ /* SupabaseAuthService.swift in Sources */,
+				X4JZSO916NJNVPWOAW9SUMRJ /* SupabaseAccountsService.swift in Sources */,
+				6QW1UWBZGTY216XI0HOEGHVZ /* ConfigManager.swift in Sources */,
+				346BU1INBERGWCCXDKLWR4A0 /* AuthModels.swift in Sources */,
+				MC1P9DOL2XE0O4T4PDSDLCN8 /* LoginView.swift in Sources */,
+				VQ46EOVD366H0ESKW1EZXU4M /* RegisterView.swift in Sources */,
+				63ZXC72T16XTOYJE948G3A9F /* ChangePasswordView.swift in Sources */,
+				E9F8G7H6I5J4K3L2M1N0O9P8Q /* EditCredentialsView.swift in Sources */,
+				Q1W2E3R4T5Y6U7I8O9P0A1S2D /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

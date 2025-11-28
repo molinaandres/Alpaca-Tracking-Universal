@@ -3,6 +3,7 @@ import SwiftUI
 struct MacOSSettingsView: View {
     @StateObject private var settingsManager = SettingsManager.shared
     @StateObject private var authService = SupabaseAuthService.shared
+    @ObservedObject var accountManager: AccountManager
     @Environment(\.dismiss) private var dismiss
     let onNavigateToAccounts: (() -> Void)?
     
@@ -11,8 +12,10 @@ struct MacOSSettingsView: View {
     @State private var tempDefaultTimeframe: Timeframe
     @State private var tempShowTotalAccounts: Bool
     @State private var showingChangePassword = false
+    @State private var showingEditCredentials = false
     
-    init(onNavigateToAccounts: (() -> Void)? = nil) {
+    init(accountManager: AccountManager, onNavigateToAccounts: (() -> Void)? = nil) {
+        self.accountManager = accountManager
         self.onNavigateToAccounts = onNavigateToAccounts
         // Inicializar con valores por defecto para evitar problemas de concurrencia
         _tempDefaultPeriod = State(initialValue: .oneMonth)
@@ -116,7 +119,7 @@ struct MacOSSettingsView: View {
                             .font(.headline)
                             .foregroundColor(.primary)
                         
-                        Checkbox("Show Total Accounts", isChecked: $tempShowTotalAccounts)
+                        Checkbox(title: "Show Total Accounts", isChecked: $tempShowTotalAccounts)
                         
                         Text("Shows a virtual account that sums the balance of all real accounts.")
                             .font(.caption)
@@ -153,10 +156,80 @@ struct MacOSSettingsView: View {
                             
                             Divider()
                             
-                            Button("Logout") {
-                                handleLogout()
+                            // API Credentials Section
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("API Credentials")
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                                
+                                // Mostrar credenciales enmascaradas
+                                if let account = accountManager.realAccounts.first {
+                                    VStack(alignment: .leading, spacing: 8) {
+                                        HStack {
+                                            Text("API Key:")
+                                                .font(.caption)
+                                                .foregroundColor(.secondary)
+                                            Spacer()
+                                            Text(String(repeating: "•", count: 20))
+                                                .font(.system(.caption, design: .monospaced))
+                                                .foregroundColor(.secondary)
+                                        }
+                                        
+                                        HStack {
+                                            Text("Secret Key:")
+                                                .font(.caption)
+                                                .foregroundColor(.secondary)
+                                            Spacer()
+                                            Text(String(repeating: "•", count: 20))
+                                                .font(.system(.caption, design: .monospaced))
+                                                .foregroundColor(.secondary)
+                                        }
+                                    }
+                                    .padding(8)
+                                    .background(Color(NSColor.textBackgroundColor))
+                                    .cornerRadius(6)
+                                }
+                                
+                                Button("Edit API Credentials") {
+                                    showingEditCredentials = true
+                                }
+                                .foregroundColor(.accentColor)
                             }
-                            .foregroundColor(.red)
+                            
+                            Divider()
+                            
+                            // Registration Information Section
+                            if let account = accountManager.realAccounts.first {
+                                VStack(alignment: .leading, spacing: 12) {
+                                    Text("Registration Information")
+                                        .font(.headline)
+                                        .foregroundColor(.primary)
+                                    
+                                    VStack(alignment: .leading, spacing: 8) {
+                                        InfoRow(label: "Account Label", value: account.name)
+                                        InfoRow(label: "Live Trading", value: account.isLiveTrading ? "Yes" : "No")
+                                        
+                                        if let firstTradeDate = account.firstTradeDate {
+                                            InfoRow(label: "First Trade Date", value: DateFormatter.shortDate.string(from: firstTradeDate))
+                                        }
+                                        
+                                        if let leverage = account.leverage {
+                                            InfoRow(label: "Leverage", value: String(format: "%.1fx", leverage))
+                                        }
+                                        
+                                        if let budget = account.budget {
+                                            InfoRow(label: "Budget Allocation", value: "\(budget)%")
+                                        }
+                                        
+                                        InfoRow(label: "Can Close All Positions", value: (account.canCloseAllPositions ?? false) ? "Yes" : "No")
+                                        InfoRow(label: "Can Disconnect From Grecia", value: (account.canDisconnectFromGrecia ?? false) ? "Yes" : "No")
+                                    }
+                                }
+                                .padding()
+                                .background(Color(NSColor.controlBackgroundColor))
+                                .cornerRadius(8)
+                            }
+                            
                         }
                         .padding()
                         .background(Color(NSColor.controlBackgroundColor))
@@ -189,16 +262,14 @@ struct MacOSSettingsView: View {
         .frame(minWidth: 500, maxWidth: 600, minHeight: 400, maxHeight: 700)
         .background(Color(NSColor.windowBackgroundColor))
         .sheet(isPresented: $showingChangePassword) {
-            ChangePasswordView()
+            ChangePasswordView(accountManager: accountManager)
+        }
+        .sheet(isPresented: $showingEditCredentials) {
+            EditCredentialsView(accountManager: accountManager)
         }
         .onAppear {
             loadSettings()
         }
-    }
-    
-    private func handleLogout() {
-        authService.logout()
-        onNavigateToAccounts?()
     }
     
     private func saveSettings() {
@@ -249,6 +320,26 @@ struct Checkbox: View {
     }
 }
 
+// Helper struct para mostrar información en formato label:value
+struct InfoRow: View {
+    let label: String
+    let value: String
+    
+    var body: some View {
+        HStack {
+            Text(label)
+                .font(.caption)
+                .foregroundColor(.secondary)
+            Spacer()
+            Text(value)
+                .font(.caption)
+                .foregroundColor(.primary)
+        }
+    }
+}
+
+// Extension para formatear fechas ya existe en PerformanceView.swift
+
 #Preview {
-    MacOSSettingsView()
+    MacOSSettingsView(accountManager: AccountManager())
 }

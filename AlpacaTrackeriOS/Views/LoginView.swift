@@ -59,6 +59,11 @@ struct LoginView: View {
                         
                         SecureField("Enter your password", text: $password)
                             .textFieldStyle(.roundedBorder)
+                            .onSubmit {
+                                if !isLoading && !email.isEmpty && !password.isEmpty {
+                                    handleLogin()
+                                }
+                            }
                     }
                     
                     if let errorMessage = errorMessage {

@@ -131,31 +131,33 @@ extension EncryptionService {
     /// Deriva una clave simétrica desde una contraseña usando PBKDF2
     /// - Parameters:
     ///   - password: La contraseña del usuario
-    ///   - salt: El salt en base64
+    ///   - salt: El salt como string (UUID string, no base64)
     ///   - iterations: Número de iteraciones (default: 100,000)
     /// - Returns: Una clave simétrica derivada
     static func deriveKeyFromPassword(password: String, salt: String, iterations: Int = 100_000) -> SymmetricKey? {
-        guard let saltData = Data(base64Encoded: salt),
+        // El salt es un UUID string, no base64, así que lo convertimos directamente a Data usando UTF-8
+        guard let saltData = salt.data(using: .utf8),
               let passwordData = password.data(using: .utf8) else {
             return nil
         }
         
         // Usar PBKDF2 con SHA-256
         var derivedKeyData = Data(count: 32) // 256 bits para AES-256
+        let keyLength = 32
         
         let result = derivedKeyData.withUnsafeMutableBytes { derivedKeyBytes -> Int32 in
             guard let derivedKeyBaseAddress = derivedKeyBytes.baseAddress else {
-                return kCCMemoryFailure
+                return Int32(kCCMemoryFailure)
             }
             
             return passwordData.withUnsafeBytes { passwordBytes -> Int32 in
                 guard let passwordBaseAddress = passwordBytes.baseAddress else {
-                    return kCCMemoryFailure
+                    return Int32(kCCMemoryFailure)
                 }
                 
                 return saltData.withUnsafeBytes { saltBytes -> Int32 in
                     guard let saltBaseAddress = saltBytes.baseAddress else {
-                        return kCCMemoryFailure
+                        return Int32(kCCMemoryFailure)
                     }
                     
                     return CCKeyDerivationPBKDF(
@@ -167,7 +169,7 @@ extension EncryptionService {
                         CCPseudoRandomAlgorithm(kCCPRFHmacAlgSHA256),
                         UInt32(iterations),
                         derivedKeyBaseAddress.assumingMemoryBound(to: UInt8.self),
-                        derivedKeyData.count
+                        keyLength
                     )
                 }
             }

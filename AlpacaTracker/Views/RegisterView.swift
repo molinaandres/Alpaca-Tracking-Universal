@@ -49,7 +49,6 @@ struct RegisterView: View {
                             .padding(12)
                             .background(Color(NSColor.textBackgroundColor))
                             .cornerRadius(8)
-                            .autocapitalization(.none)
                             .disableAutocorrection(true)
                     }
                     

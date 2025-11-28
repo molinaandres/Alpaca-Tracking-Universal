@@ -16,7 +16,9 @@ class SupabaseAccountsService {
         guard let userId = authService.getCurrentUserId(),
               let password = authService.currentPassword,
               let user = authService.currentUser else {
-            completion(.failure(.notAuthenticated))
+            DispatchQueue.main.async {
+                completion(.failure(.notAuthenticated))
+            }
             return
         }
         
@@ -28,11 +30,14 @@ class SupabaseAccountsService {
             case .success(let authResponse):
                 guard let credentials = authResponse.credentials,
                       let kdfSalt = authResponse.kdfSalt else {
-                    completion(.failure(.noCredentials))
+                    DispatchQueue.main.async {
+                        completion(.failure(.noCredentials))
+                    }
                     return
                 }
                 
                 // Desencriptar credenciales y convertirlas a AlpacaAccount
+                print("🔐 Attempting to decrypt \(credentials.count) credentials")
                 let accounts = credentials.compactMap { credential -> AlpacaAccount? in
                     guard let apiKey = EncryptionService.decryptWithPassword(
                         credential.encApiKey,
@@ -44,15 +49,25 @@ class SupabaseAccountsService {
                         password: password,
                         salt: kdfSalt
                     ) else {
+                        print("❌ Failed to decrypt credentials for credential \(credential.id)")
                         return nil
                     }
+                    print("✅ Successfully decrypted credentials for \(credential.label)")
                     
                     // Convertir firstTradeDate de String a Date si existe
                     var firstTradeDate: Date? = nil
                     if let dateString = credential.firstTradeDate {
+                        // Intentar con formato completo primero (con hora)
                         let formatter = ISO8601DateFormatter()
                         formatter.formatOptions = [.withFullDate, .withTime, .withColonSeparatorInTime]
                         firstTradeDate = formatter.date(from: dateString)
+                        
+                        // Si falla, intentar solo con fecha
+                        if firstTradeDate == nil {
+                            let dateOnlyFormatter = ISO8601DateFormatter()
+                            dateOnlyFormatter.formatOptions = [.withFullDate]
+                            firstTradeDate = dateOnlyFormatter.date(from: dateString)
+                        }
                     }
                     
                     return AlpacaAccount(
@@ -72,10 +87,18 @@ class SupabaseAccountsService {
                     )
                 }
                 
-                completion(.success(accounts))
+                print("✅ Decrypted \(accounts.count) accounts successfully")
+                
+                // Asegurar que el callback se ejecute en el main thread
+                DispatchQueue.main.async {
+                    completion(.success(accounts))
+                }
                 
             case .failure(let error):
-                completion(.failure(.authError(error.localizedDescription)))
+                // Asegurar que el callback se ejecute en el main thread
+                DispatchQueue.main.async {
+                    completion(.failure(.authError(error.localizedDescription)))
+                }
             }
         }
     }
@@ -137,11 +160,13 @@ class SupabaseAccountsService {
         formatter.formatOptions = [.withFullDate, .withTime, .withColonSeparatorInTime]
         let firstTradeDateString = account.firstTradeDate.map { formatter.string(from: $0) }
         
+        // Solo enviar apiKey y secretKey si la cuenta no está encriptada (significa que son valores nuevos o desencriptados)
+        // Si está encriptada, no enviar las keys (no queremos actualizarlas)
         let request = UpdateCredentialRequest(
             userId: userId,
             credentialId: account.id.uuidString,
-            apiKey: account.apiKey,
-            secretKey: account.secretKey,
+            apiKey: account.isEncrypted ? nil : account.apiKey,
+            secretKey: account.isEncrypted ? nil : account.secretKey,
             label: account.name,
             isLiveTrading: account.isLiveTrading,
             firstTradeDate: firstTradeDateString,
@@ -210,11 +235,11 @@ class SupabaseAccountsService {
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.setValue(config.supabaseAnonKey, forHTTPHeaderField: "apikey")
-        urlRequest.setValue(config.supabaseAnonKey, forHTTPHeaderField: "Authorization")
+        urlRequest.setValue("Bearer \(config.supabaseAnonKey)", forHTTPHeaderField: "Authorization")
         
         do {
             let encoder = JSONEncoder()
-            encoder.keyEncodingStrategy = .convertToSnakeCase
+            // NO usar convertToSnakeCase porque los CodingKeys ya están definidos explícitamente
             urlRequest.httpBody = try encoder.encode(request)
         } catch {
             completion(.failure(.encodingError))
@@ -241,7 +266,7 @@ class SupabaseAccountsService {
             case 200:
                 do {
                     let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    // NO usar convertFromSnakeCase porque los CodingKeys ya están definidos explícitamente
                     let authResponse = try decoder.decode(AuthResponse.self, from: data)
                     completion(.success(authResponse))
                 } catch {

@@ -99,11 +99,13 @@ class SupabaseAuthService: ObservableObject {
                         lastLoginAt: Date()
                     )
                     
-                    // Guardar sesión
-                    self.saveSession(user: user, password: password)
-                    self.currentUser = user
-                    self.currentPassword = password
-                    self.isAuthenticated = true
+                    // Guardar sesión y actualizar propiedades @Published en el main thread
+                    DispatchQueue.main.async {
+                        self.saveSession(user: user, password: password)
+                        self.currentUser = user
+                        self.currentPassword = password
+                        self.isAuthenticated = true
+                    }
                     
                     completion(.success(response))
                 } else {
@@ -149,8 +151,10 @@ class SupabaseAuthService: ObservableObject {
             switch result {
             case .success(let response):
                 if response.success {
-                    // Actualizar la contraseña guardada
-                    self.currentPassword = newPassword
+                    // Actualizar la contraseña guardada en el main thread
+                    DispatchQueue.main.async {
+                        self.currentPassword = newPassword
+                    }
                     completion(.success(true))
                 } else {
                     let error = AuthError.serverError(response.message ?? "Password change failed")
@@ -204,31 +208,48 @@ class SupabaseAuthService: ObservableObject {
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.setValue(config.supabaseAnonKey, forHTTPHeaderField: "apikey")
-        urlRequest.setValue(config.supabaseAnonKey, forHTTPHeaderField: "Authorization")
+        urlRequest.setValue("Bearer \(config.supabaseAnonKey)", forHTTPHeaderField: "Authorization")
         
         do {
             let encoder = JSONEncoder()
-            encoder.keyEncodingStrategy = .convertToSnakeCase
+            // No usar convertToSnakeCase porque los CodingKeys ya definen los nombres correctos
             urlRequest.httpBody = try encoder.encode(request)
+            
+            // Log request for debugging
+            if let requestData = urlRequest.httpBody,
+               let requestString = String(data: requestData, encoding: .utf8) {
+                print("📤 Request to: \(url)")
+                print("📤 Request body: \(requestString)")
+            }
         } catch {
+            print("❌ Encoding error: \(error.localizedDescription)")
             completion(.failure(.encodingError))
             return
         }
         
         URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if let error = error {
+                print("❌ Network error: \(error.localizedDescription)")
                 completion(.failure(.networkError(error.localizedDescription)))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse else {
+                print("❌ Invalid response type")
                 completion(.failure(.invalidResponse))
                 return
             }
             
             guard let data = data else {
+                print("❌ No data received. Status code: \(httpResponse.statusCode)")
                 completion(.failure(.noData))
                 return
+            }
+            
+            // Log response for debugging
+            if let responseString = String(data: data, encoding: .utf8) {
+                print("📡 Response status: \(httpResponse.statusCode)")
+                print("📡 Response body: \(responseString)")
             }
             
             // Manejar diferentes códigos de estado
@@ -236,33 +257,94 @@ class SupabaseAuthService: ObservableObject {
             case 200:
                 do {
                     let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    // NO usar convertFromSnakeCase porque los CodingKeys ya están definidos explícitamente
                     let authResponse = try decoder.decode(AuthResponse.self, from: data)
+                    print("✅ Login/Registration successful")
                     completion(.success(authResponse))
                 } catch {
+                    print("❌ Decoding error: \(error.localizedDescription)")
+                    // Log el contenido completo para debug
+                    if let responseString = String(data: data, encoding: .utf8) {
+                        print("❌ Response body that failed to decode: \(responseString)")
+                    }
+                    // Log el error detallado
+                    if let decodingError = error as? DecodingError {
+                        print("❌ Decoding error details: \(decodingError)")
+                    }
                     completion(.failure(.decodingError(error.localizedDescription)))
                 }
             case 401:
-                completion(.failure(.invalidCredentials))
+                // Intentar decodificar el mensaje de error del servidor
+                do {
+                    let decoder = JSONDecoder()
+                    let authResponse = try decoder.decode(AuthResponse.self, from: data)
+                    let errorMessage = authResponse.message ?? authResponse.error ?? "Invalid email or password"
+                    print("❌ 401 Error: \(errorMessage)")
+                    completion(.failure(.serverError(errorMessage)))
+                } catch {
+                    print("❌ 401 Error (could not decode): \(error.localizedDescription)")
+                    completion(.failure(.invalidCredentials))
+                }
             case 403:
                 do {
                     let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
                     let authResponse = try decoder.decode(AuthResponse.self, from: data)
                     if authResponse.status == "pending" {
+                        print("⚠️ Account pending approval")
                         completion(.failure(.accountPending))
                     } else {
+                        print("❌ Account rejected")
                         completion(.failure(.accountRejected))
                     }
                 } catch {
+                    print("⚠️ 403 Error (assuming pending): \(error.localizedDescription)")
                     completion(.failure(.accountPending))
                 }
             case 409:
+                print("❌ Email already exists")
                 completion(.failure(.emailAlreadyExists))
+            case 400:
+                // Bad Request - intentar obtener el mensaje de error
+                do {
+                    // Intentar decodificar como AuthResponse primero
+                    let decoder = JSONDecoder()
+                    if let authResponse = try? decoder.decode(AuthResponse.self, from: data) {
+                        let errorMessage = authResponse.message ?? authResponse.error ?? "Bad request"
+                        print("❌ 400 Error: \(errorMessage)")
+                        completion(.failure(.serverError(errorMessage)))
+                    } else {
+                        // Intentar decodificar como un objeto genérico de error
+                        if let errorDict = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                            let errorMessage = errorDict["error"] as? String ?? 
+                                             errorDict["message"] as? String ?? 
+                                             "Bad request - Missing required fields"
+                            print("❌ 400 Error: \(errorMessage)")
+                            print("❌ Full error dict: \(errorDict)")
+                            completion(.failure(.serverError(errorMessage)))
+                        } else {
+                            print("❌ 400 Error (could not decode): \(String(data: data, encoding: .utf8) ?? "unknown")")
+                            completion(.failure(.serverError("Invalid request. Please check your input.")))
+                        }
+                    }
+                } catch {
+                    print("❌ 400 Error (decoding exception): \(error.localizedDescription)")
+                    print("❌ Raw response: \(String(data: data, encoding: .utf8) ?? "unknown")")
+                    completion(.failure(.serverError("Invalid request. Please check your input.")))
+                }
             case 500:
+                print("❌ Server error 500")
                 completion(.failure(.serverError("Internal server error")))
             default:
-                completion(.failure(.serverError("Unexpected status code: \(httpResponse.statusCode)")))
+                print("❌ Unexpected status code: \(httpResponse.statusCode)")
+                // Intentar obtener el mensaje de error
+                do {
+                    let decoder = JSONDecoder()
+                    let authResponse = try decoder.decode(AuthResponse.self, from: data)
+                    let errorMessage = authResponse.message ?? authResponse.error ?? "Unexpected error"
+                    completion(.failure(.serverError(errorMessage)))
+                } catch {
+                    completion(.failure(.serverError("Unexpected status code: \(httpResponse.statusCode)")))
+                }
             }
         }.resume()
     }

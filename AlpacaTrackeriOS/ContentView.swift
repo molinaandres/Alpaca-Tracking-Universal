@@ -56,23 +56,35 @@ struct ContentView: View {
                             
                             Spacer()
                             
-                            Button(action: {
-                                showingAddAccount = true
-                            }) {
-                                HStack(spacing: 4) {
-                                    Image(systemName: "plus.circle")
+                            HStack(spacing: 8) {
+                                Button(action: {
+                                    authService.logout()
+                                }) {
+                                    Image(systemName: "rectangle.portrait.and.arrow.right")
                                         .font(.subheadline)
-                                    Text("Add Account")
-                                        .font(.subheadline)
-                                        .fontWeight(.medium)
+                                        .foregroundColor(.red)
+                                        .padding(6)
                                 }
-                                .foregroundColor(.accentColor)
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 6)
-                                .background(Color.accentColor.opacity(0.1))
-                                .cornerRadius(6)
+                                .buttonStyle(PlainButtonStyle())
+                                
+                                Button(action: {
+                                    showingAddAccount = true
+                                }) {
+                                    HStack(spacing: 4) {
+                                        Image(systemName: "plus.circle")
+                                            .font(.subheadline)
+                                        Text("Add Account")
+                                            .font(.subheadline)
+                                            .fontWeight(.medium)
+                                    }
+                                    .foregroundColor(.accentColor)
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 6)
+                                    .background(Color.accentColor.opacity(0.1))
+                                    .cornerRadius(6)
+                                }
+                                .buttonStyle(PlainButtonStyle())
                             }
-                            .buttonStyle(PlainButtonStyle())
                         }
                         .padding(.horizontal, 16)
                         .padding(.top, 8)
@@ -147,7 +159,7 @@ struct ContentView: View {
                 .tag(3)
             
             // Settings Tab
-            iOSSettingsView(onNavigateToAccounts: {
+            iOSSettingsView(accountManager: accountManager, onNavigateToAccounts: {
                 selectedTab = 0
             })
                 .tabItem {

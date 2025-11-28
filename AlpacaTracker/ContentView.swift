@@ -184,6 +184,18 @@ struct ContentView: View {
                                 .padding(8)
                         }
                         .buttonStyle(PlainButtonStyle())
+                        
+                        Button(action: {
+                            authService.logout()
+                        }) {
+                            Image(systemName: "rectangle.portrait.and.arrow.right")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.red)
+                                .padding(8)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .help("Logout")
+                        
                         Spacer()
                     }
                     .padding(.horizontal, 15)
@@ -195,7 +207,9 @@ struct ContentView: View {
             MacOSAddAccountView(accountManager: accountManager)
         }
         .sheet(isPresented: $showingSettings) {
-            SettingsView()
+            MacOSSettingsView(accountManager: accountManager, onNavigateToAccounts: {
+                showingSettings = false
+            })
         }
         .sheet(isPresented: $showingEditAccount) {
             if let account = accountToEdit {

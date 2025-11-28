@@ -48,7 +48,6 @@ struct LoginView: View {
                         .padding(12)
                         .background(Color(NSColor.textBackgroundColor))
                         .cornerRadius(8)
-                        .autocapitalization(.none)
                         .disableAutocorrection(true)
                 }
                 
@@ -62,6 +61,11 @@ struct LoginView: View {
                         .padding(12)
                         .background(Color(NSColor.textBackgroundColor))
                         .cornerRadius(8)
+                        .onSubmit {
+                            if !isLoading && !email.isEmpty && !password.isEmpty {
+                                handleLogin()
+                            }
+                        }
                 }
                 
                 if let errorMessage = errorMessage {
