@@ -80,6 +80,7 @@ fastlane/test_output
 AlpacaTracker.xcodeproj/project.xcworkspace/xcuserdata/
 AlpacaTracker.xcodeproj/xcuserdata/
 
-EOF
-
-echo "Updated .gitignore"; git status --porcelain=v1
+# Testing/Debug scripts (not used in production)
+*test*.swift
+decrypt_credentials.swift
+*.sh
